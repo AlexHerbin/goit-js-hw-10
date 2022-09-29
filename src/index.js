@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import './css/styles.css';
-import './fetchCountries.js';
+import { fetchCountries} from './fetchCountries.js';
 
 const DEBOUNCE_DELAY = 300;
 const refs = {
@@ -24,7 +24,7 @@ function onSearch(e) {
    
     fetchCountries(country)
     .then(renderCountryList)
-    .catch(error => console.log(error))
+    .catch(onError)
 }
 
 
@@ -37,7 +37,7 @@ function renderCountryList(countries) {
     if (countries.length > 2 && countries.length < 10) {
         const markupCountryList = countries
             .map( (country)  => {
-                return `<li class ='country-item'><img class ='country-item__img' src='${country.flags.svg}' alt='${country.name}' width='30' hight='30'><span class="country-item__name">${country.name}</span></li>`;
+                return `<li class ='country-item'><img class ='country-item__img' src='${country.flags.svg}' alt='${country.name}' width='25' hight='25'><span class="country-item__name">${country.name}</span></li>`;
             })
             .join('');
         refs.countryList.innerHTML = markupCountryList; 
@@ -48,8 +48,10 @@ function renderCountryList(countries) {
         const markupCountryInfo = countries
             .map((country) => {
                 return `<div>
-                    <img src='${country.flags.svg}' alt='${country.name}' width = '70'>
-                    <span>${country.name}</span>
+                    <div class='country-info__block'>
+                        <img src='${country.flags.svg}' alt='${country.name}' width = '60'>
+                        <span class='country-info__name'>${country.name}</span>
+                    </div>      
                     <p>Capital: ${country.capital}</p>
                     <p>Population: ${country.population}</p>
                     <p>Languages: ${Object.values(country.languages[0])}</p>
@@ -61,3 +63,6 @@ function renderCountryList(countries) {
     
 };
 
+function onError(error) {
+     Notiflix.Notify.failure("Oops, there is no country with that name");
+}
