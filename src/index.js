@@ -34,7 +34,8 @@ function renderCountryList(countries) {
         Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
     }
 
-    if (countries.length > 2 && countries.length < 10) {
+    if (countries.length >= 2 && countries.length <= 10) {
+        refs.countryInfo.innerHTML = '';
         const markupCountryList = countries
             .map( (country)  => {
                 return `<li class ='country-item'><img class ='country-item__img' src='${country.flags.svg}' alt='${country.name}' width='25' hight='25'><span class="country-item__name">${country.name}</span></li>`;
@@ -64,5 +65,7 @@ function renderCountryList(countries) {
 };
 
 function onError(error) {
-     Notiflix.Notify.failure("Oops, there is no country with that name");
+    refs.countryList.innerHTML = '';
+    refs.countryInfo.innerHTML = '';
+    Notiflix.Notify.failure("Oops, there is no country with that name");
 }
