@@ -31,6 +31,7 @@ function onSearch(e) {
 function renderCountryList(countries) {
 
     if (countries.length > 10) {
+        refs.countryList.innerHTML = '';
         Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
     }
 
